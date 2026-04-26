@@ -27,5 +27,5 @@ urlpatterns = [
     path('orders', views.orders, name="orders"),
     path('cart', views.cart, name="cart"),
 
-    path('account/login', auth_views.LoginView.as_view, name="account"),
+    path('account/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name="account"),
 ]
