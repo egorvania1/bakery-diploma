@@ -1,19 +1,30 @@
-<nav>
-  <ul style="display:flex; justify-content:space-evenly">
-    <li><a href="{% url 'menu' %}">Menu</a></li>
-    <li><a href="{% url 'about' %}">About</a></li>
-    <li><a href="{% url 'orders' %}">Orders</a></li>
-    <li><a href="{% url 'cart' %}">Cart</a></li>
+<header class="justify-content-right">
+  <a class="btn btn-primary" href="{% url 'orders' %}">Orders</a>
+  <a class="btn btn-primary"href="{% url 'cart' %}">Cart</a>
+</header>
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'menu' %}">
+      <img src="/docs/5.3/assets/brand/bootstrap-logo.svg"
+           alt="Bootstrap"
+           width="30"
+           height="24">
+    </a>
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'menu' %}">Menu</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'about' %}">About</a>
+      </li>
+    </ul>
     {% if user.is_authenticated %}
-    <li>
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">logout</button>
+        <button class="btn btn-primary" type="submit">logout</button>
       </form>
-    </li>
     {% else %}
-    <li><a href="{% url 'login' %}">Login</a></li>
+      <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
     {% endif %}
-    
-  </ul>
+  </div>
 </nav>
