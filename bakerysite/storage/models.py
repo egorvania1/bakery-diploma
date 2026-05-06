@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=100)
+    phone = PhoneNumberField(null=False, blank=False, unique=True)
+
+    class Meta:
+        unique_together = ('user', 'phone',)
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=30)
+
+    class Meta:
+        unique_together = ('user', 'role',)
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -18,6 +25,9 @@ class Order(models.Model):
     payment_type = models.CharField(max_length=10)
     status = models.CharField(max_length=10)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('customer', 'creation_date',)
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
@@ -26,16 +36,26 @@ class Item(models.Model):
     contents = models.CharField(max_length=100)
     price = models.IntegerField()
 
+    class Meta:
+        unique_together = ('name', 'weight',)
+
 class Changes(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     component = models.CharField(max_length=30)
     selected = models.CharField(max_length=30)
     price = models.IntegerField()
-    
-class ItemsInOrder(models.Model):
-    pk = models.CompositePrimaryKey("order_id", "changeditem_id", "changes_id")
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    changeditem_id = models.PositiveIntegerField()
-    changes = models.ForeignKey(Changes, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('item', 'component', 'selected',)
+    
+class ChangedItem(models.Model):
+    changes = models.ManyToManyField(Changes)
+
+class ItemsInOrder(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+
+    class Meta:
+        unique_together = ('order', 'changeditem',)
 
