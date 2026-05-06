@@ -4,24 +4,21 @@
     Menu
 {% endblock title %}
 {% block content %}
-    <div class="container text-center">
+    <div class="container">
         <div class="row row-cols-4">
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-        </div>
-    </div>
-    <div class="container pt-2">
-        <div class="card" style="width: 16rem;">
-            <img src="{% static 'assets/img/item.png' %}"
-                 class="p-2 card-img-top"
-                 alt="...">
-            <div class="card-body">
-                <h6 class="card-subtitle">Товар</h6>
-                <h5 class="card-title">Цена</h5>
-            </div>
+                {% for item in items %}
+                    <div class="col pt-2">
+                        <div class="card" style="width: 16rem;">
+                            <img src="{% static 'assets/img/item.png' %}"
+                                 class="p-2 card-img-top"
+                                 alt="...">
+                            <div class="card-body">
+                                <h6 class="card-subtitle">Товар</h6>
+                                <h5 class="card-title">Цена</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
         </div>
     </div>
 {% endblock content %}

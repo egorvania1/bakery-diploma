@@ -36,12 +36,24 @@ class Item(models.Model):
     contents = models.CharField(max_length=100)
     price = models.IntegerField()
 
+    image = models.ImageField(upload_to="uploads/")
+
     class Meta:
         unique_together = ('name', 'weight',)
 
+    def __str__(self):
+        return self.name
+
 class Changes(models.Model):
+    COMPONENTS = {
+        "NO": "Нету",
+        "CR": "Крем",
+        "KO": "Корж",
+        "GL": "Глазурь",
+        "DE": "Украшение",
+    }
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    component = models.CharField(max_length=30)
+    component = models.CharField(max_length=30, choices=COMPONENTS)
     selected = models.CharField(max_length=30)
     price = models.IntegerField()
 

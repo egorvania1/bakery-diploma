@@ -1,8 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from storage.models import Item
+
 def menu(request):
-    return render(request, 'menu.html')
+    items = Item.objects.all()
+    context = {
+        'items': items,
+    }
+
+    return render(request, 'menu.html', context)
 
 def about(request):
     return render(request, 'about.html')
