@@ -36,7 +36,7 @@ class Item(models.Model):
     contents = models.CharField(max_length=100)
     price = models.IntegerField()
 
-    image = models.ImageField(upload_to="uploads/")
+    image = models.ImageField(upload_to="static/uploads/")
 
     class Meta:
         unique_together = ('name', 'weight',)

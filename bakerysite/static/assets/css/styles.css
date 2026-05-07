@@ -1,0 +1,5 @@
+:root,
+[data-bs-theme=light] {
+    --bs-secondary-bg: #B7C297;
+    --bs-tertiary-bg: #B7C297;
+}
