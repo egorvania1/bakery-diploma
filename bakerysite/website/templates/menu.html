@@ -9,14 +9,14 @@
                     <div class="col pt-2">
                         <div class="card">
                             <div class="ratio ratio-1x1">
-                            <img src="{{ item.image }}"
+                            <img src="{{ item.image.url }}"
                                  class="p-2 card-img-top object-fit-cover"
                                  alt="...">
                             </div>
                             <div class="card-body">
                                 <h6 class="card-subtitle"> {{ item.name }} </h6>
                                 <h5 class="card-title"> {{ item.price }} руб. </h5>
-                                <a href="#" class="stretched-link"></a>
+                                <a href="{% url 'item_info' pk=item.pk %}" class="stretched-link"></a>
                             </div>
                         </div>
                     </div>
