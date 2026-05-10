@@ -5,9 +5,9 @@
 {% block content %}
     <div class="container ps-3 p-2">
         <div class="row">
-            <div class="col">{{ item.name }}</div>
+            <div class="col"><h2> {{ item.name }} </h2></div>
             <div class="col">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-underline justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active"
                                 id="desc-tab"
@@ -43,20 +43,20 @@
         </div>
         <div class="row">
             <div class="col">
-                <img src="{{ item.image.url }}" class="p-2 object-fit-cover" alt="...">
+                <img src="{{ item.image.url }}" class="p-2 object-fit-cover rounded-4" alt="...">
             </div>
             <div class="col">
-                <div class="tab-content" id="myTabContent">
+                <div class="tab-content text-center" id="myTabContent">
                     <div class="tab-pane fade show active"
                          id="desc-tab-pane"
                          role="tabpanel"
                          aria-labelledby="desc-tab"
-                         tabindex="0">{{ item.description }}</div>
+                         tabindex="0"> {{ item.description }} </div>
                     <div class="tab-pane fade"
                          id="cont-tab-pane"
                          role="tabpanel"
                          aria-labelledby="cont-tab"
-                         tabindex="0">{{ item.contents }}</div>
+                         tabindex="0"> {{ item.contents }} </div>
                     <div class="tab-pane fade"
                          id="cust-tab-pane"
                          role="tabpanel"
@@ -67,7 +67,14 @@
         </div>
         <div class="row">
             <div class="col"></div>
-            <div class="col">Column</div>
+            <div class="col">
+                <div class="row">
+                    <div class="col d-flex align-items-center justify-content-end">{{ item.price }} руб.</div>
+                    <div class="col">
+                        <a class="btn btn-secondary rounded-5" href="{% url 'menu' %}">В корзину</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}
