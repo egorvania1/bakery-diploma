@@ -70,7 +70,7 @@ class Changes(models.Model):
         unique_together = ('item', 'component', 'selected',)
 
     def __str__(self):
-        return str(self.item)
+        return self.selected + " " + str(self.price)
     
 class ChangedItem(models.Model):
     changes = models.ManyToManyField(Changes)
