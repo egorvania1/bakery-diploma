@@ -9,12 +9,18 @@ class Customer(models.Model):
     class Meta:
         unique_together = ('user', 'phone',)
 
+    def __str__(self):
+        return self.phone
+
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=30)
 
     class Meta:
         unique_together = ('user', 'role',)
+    
+    def __str__(self):
+        return str(self.user)
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -28,6 +34,9 @@ class Order(models.Model):
     
     class Meta:
         unique_together = ('customer', 'creation_date',)
+
+    def __str__(self):
+        return str(self.customer) + self.creation_date
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
@@ -59,6 +68,9 @@ class Changes(models.Model):
 
     class Meta:
         unique_together = ('item', 'component', 'selected',)
+
+    def __str__(self):
+        return str(self.item)
     
 class ChangedItem(models.Model):
     changes = models.ManyToManyField(Changes)
