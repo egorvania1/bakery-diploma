@@ -5,9 +5,13 @@
 {% block content %}
     <div class="container ps-3 p-2">
         <div class="row">
-            <div class="col"><h2> {{ item.name }} </h2></div>
             <div class="col">
-                <ul class="nav nav-underline justify-content-center" id="myTab" role="tablist">
+                <h2>{{ item.name }}</h2>
+            </div>
+            <div class="col">
+                <ul class="nav nav-underline justify-content-center"
+                    id="myTab"
+                    role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active"
                                 id="desc-tab"
@@ -43,7 +47,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <img src="{{ item.image.url }}" class="p-2 object-fit-cover rounded-4" alt="...">
+                <img src="{{ item.image.url }}"
+                     class="p-2 object-fit-cover rounded-4"
+                     alt="...">
             </div>
             <div class="col">
                 <div class="tab-content text-center" id="myTabContent">
@@ -51,17 +57,20 @@
                          id="desc-tab-pane"
                          role="tabpanel"
                          aria-labelledby="desc-tab"
-                         tabindex="0"> {{ item.description }} </div>
+                         tabindex="0">{{ item.description }}</div>
                     <div class="tab-pane fade"
                          id="cont-tab-pane"
                          role="tabpanel"
                          aria-labelledby="cont-tab"
-                         tabindex="0"> {{ item.contents }} </div>
+                         tabindex="0">{{ item.contents }}</div>
                     <div class="tab-pane fade"
                          id="cust-tab-pane"
                          role="tabpanel"
                          aria-labelledby="cust-tab"
-                         tabindex="0">...</div>
+                         tabindex="0">
+                        {% csrf_token %}
+                        {{ form }}
+                    </div>
                 </div>
             </div>
         </div>

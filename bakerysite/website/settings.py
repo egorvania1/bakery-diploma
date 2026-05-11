@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     "phonenumber_field",
     "storage.apps.StorageConfig",
 ]
@@ -121,6 +122,19 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+COMPRESS_ROOT = BASE_DIR / "static"
+
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "menu"
 LOGOUT_REDIRECT_URL = "menu"
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
