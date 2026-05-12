@@ -124,7 +124,7 @@ STATICFILES_DIRS = [
 
 COMPRESS_ROOT = BASE_DIR / "static"
 
-LOGIN_URL = "login"
+LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "menu"
 LOGOUT_REDIRECT_URL = "menu"
 
