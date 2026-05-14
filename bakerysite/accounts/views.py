@@ -35,14 +35,15 @@ def register_view(request):
         user_form = UserRegisterForm(data=request.POST)
         profile_form = ProfileRegisterForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save(commit=False)
-            profile = profile_form.save()
+            user = user_form.save()
+            user.set_password(user.password)
+            profile = profile_form.save(commit=False)
             profile.user = user
 
             profile.save()
             user.save()
-            messages.error(request, "Аккаунт создан!")
-            # return redirect('accounts:login')
+            # messages.error(request, "Аккаунт создан!")
+            return redirect('accounts:login')
     else:
         user_form = UserRegisterForm()
         profile_form = ProfileRegisterForm()
