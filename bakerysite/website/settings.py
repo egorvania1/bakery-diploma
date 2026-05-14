@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'website.context_processors.custom_processor',
             ],
         },
     },
@@ -103,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#AUTH_PROFILE_MODULE = 'accounts.Customer'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
