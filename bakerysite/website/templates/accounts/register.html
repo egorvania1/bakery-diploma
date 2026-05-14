@@ -6,10 +6,10 @@
     <div class="container ps-3 p-2">
         <form method="post">
             {% csrf_token %}
-            {{ form_login }}
-            <button type="submit" name='login' value='login'>Войти</button>
+            {{ user_form }}
+            {{ profile_form }}
+            <button type="submit" name='register' value='register'>Зарегистрироваться</button>
         </form>
-        <a href="{% url 'accounts:register' %}">Регистрация</a>
         {% for message in messages %}
             <div class="alert alert-success">
                 <a class="close" href="#" data-dismiss="alert">×</a>

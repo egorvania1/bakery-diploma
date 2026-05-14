@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
+from accounts.models import Customer, Employee
+
+'''
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = PhoneNumberField(null=False, blank=False, unique=True)
@@ -21,6 +24,7 @@ class Employee(models.Model):
     
     def __str__(self):
         return str(self.user)
+'''
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

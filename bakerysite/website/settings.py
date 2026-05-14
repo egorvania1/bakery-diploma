@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'compressor',
     "phonenumber_field",
     "storage.apps.StorageConfig",
+    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [

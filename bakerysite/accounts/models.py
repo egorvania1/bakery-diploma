@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+#from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 '''
@@ -27,7 +27,7 @@ class Employee(models.Model):
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = PhoneNumberField(
-        null=False, blank=False, unique=True, related_name="profile"
+        null=False, blank=False
     )
 
     class Meta:

@@ -1,3 +1,4 @@
+'''
 from django.contrib import admin
 
 class UserAdmin(BaseUserAdmin):
@@ -24,3 +25,4 @@ class UserAdmin(BaseUserAdmin):
         return form
 
     admin.site.register(User, UserAdmin)
+'''
