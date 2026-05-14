@@ -20,8 +20,6 @@ def login_view(request):
                 else:
                     messages.error(request,'Неверное имя пользователя или пароль')
                     #return redirect('accounts:login')
-                login(request, user)
-                return redirect('menu')
 
             elif 'register' in request.POST:
                 user = User.objects.create_user(username=username, password=password)
