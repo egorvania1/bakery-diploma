@@ -1,11 +1,20 @@
 {% extends "base.html" %}
-{% block title %} Login {% endblock title %}
+{% block title %}
+    Login
+{% endblock title %}
 {% block content %}
     <div class="container ps-3 p-2">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Log in</button>
+            <button type="submit" name='login' value='login'>Log in</button>
+            <button type="submit" name='register' value='register'>Register</button>
         </form>
+        {% for message in messages %}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}
