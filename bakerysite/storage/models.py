@@ -6,19 +6,20 @@ from accounts.models import Customer, Employee
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    creation_date = models.DateTimeField()
-    completion_date = models.DateTimeField()
-    delivery_type = models.CharField(max_length=10)
-    delivery_address = models.CharField(max_length=30)
-    payment_type = models.CharField(max_length=10)
-    status = models.CharField(max_length=10)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(blank=True, null=True)
+    completion_date = models.DateTimeField(blank=True, null=True)
+    delivery_type = models.CharField(max_length=10, null=True)
+    delivery_address = models.CharField(max_length=30, null=True)
+    payment_type = models.CharField(max_length=10, null=True)
+    status = models.CharField(max_length=10, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    is_ordered = models.BooleanField(default=False)
     
     class Meta:
         unique_together = ('customer', 'creation_date',)
 
     def __str__(self):
-        return str(self.customer) + self.creation_date
+        return f'{self.customer} + {self.creation_date}'
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
@@ -52,15 +53,27 @@ class Changes(models.Model):
         unique_together = ('item', 'component', 'selected',)
 
     def __str__(self):
-        return self.selected + " " + str(self.price)
+        return f'{self.selected} {self.price}'
     
 class ChangedItem(models.Model):
     changes = models.ManyToManyField(Changes)
 
-class ItemsInOrder(models.Model):
+    def get_item(self):
+        return self.changes.first()
+
+    def get_changes_price(self):
+        sum = 0
+        for change in self.changes.all:
+            sum += change.price
+        return sum
+
+class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    amount = models.IntegerField(default=1)
+
+    def get_price(self):
+        return self.changeditem.get_changes_price() * self.amount
 
     class Meta:
         unique_together = ('order', 'changeditem',)

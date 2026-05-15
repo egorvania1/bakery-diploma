@@ -3,9 +3,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from storage.models import Item, ChangedItem
+from storage.models import Item, ChangedItem, Order, OrderItem
+
+from accounts.models import Customer
 
 from .forms import ChangesForm
+
+
 
 def menu(request):
     items = Item.objects.all()
@@ -38,6 +42,14 @@ def item_info(request, pk):
             
             changesinitem.save()
 
+            customer = Customer.objects.get(user=request.user)
+
+            try:
+                order = Order.objects.get(customer=customer, is_ordered=False)
+            except:
+                order = Order.objects.create(customer=customer)
+
+            orderitem = OrderItem.objects.create(order=order, changeditem=changesinitem)
             return HttpResponseRedirect("/")
         else:
             print(form.errors.as_data())
@@ -50,3 +62,6 @@ def item_info(request, pk):
     }
 
     return render(request, 'item_info.html', context)
+
+#def order_create(request):
+    

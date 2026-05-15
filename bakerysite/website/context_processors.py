@@ -1,4 +1,4 @@
-from storage.models import Order
+from storage.models import Order, OrderItem
 from accounts.models import Customer
 
 def custom_processor(request):
@@ -11,8 +11,13 @@ def custom_processor(request):
         except:
             customer = None
         if customer:
-            order_amount = Order.objects.filter(customer=customer, creation_date=None).count()
-            cart_amount = Order.objects.exclude(creation_date=None).filter(customer=customer).count()
+            try:
+                cart = Order.objects.get(customer=customer, is_ordered=False)
+                cart_amount = OrderItem.objects.filter(order=cart).count()
+            except:
+                pass
+            order_amount = Order.objects.filter(customer=customer, is_ordered=True).count()
+            #cart_amount = Order.objects.exclude(creation_date=None).filter(customer=customer).count()
     
     return {
         'order_amount': order_amount,
