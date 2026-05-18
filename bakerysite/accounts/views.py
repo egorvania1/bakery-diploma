@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import UserLoginForm, UserRegisterForm, ProfileRegisterForm
 
@@ -55,6 +56,9 @@ def register_view(request):
 
     return render(request, "accounts/register.html", context)
 
+@login_required
+def profile_view(request):
+    return render("accounts/profile.html")
 
 # def logout(request):
 #    logout(request)
