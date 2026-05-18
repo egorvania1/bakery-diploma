@@ -5,12 +5,21 @@ from phonenumber_field.modelfields import PhoneNumberField
 from accounts.models import Customer, Employee
 
 class Order(models.Model):
+    DELIVERY = {
+        "S": "Самовывоз",
+        "D": "Доставка",
+    }
+
+    PAYMENT = {
+        "R": "При получении",
+        "C": "По карте",
+    }
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(blank=True, null=True)
     completion_date = models.DateTimeField(blank=True, null=True)
-    delivery_type = models.CharField(max_length=10, null=True)
+    delivery_type = models.CharField(max_length=10, null=True, choices=DELIVERY)
     delivery_address = models.CharField(max_length=30, null=True)
-    payment_type = models.CharField(max_length=10, null=True)
+    payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT)
     status = models.CharField(max_length=10, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     is_ordered = models.BooleanField(default=False)
@@ -49,6 +58,9 @@ class Changes(models.Model):
     selected = models.CharField(max_length=30)
     price = models.IntegerField()
 
+    def get_item(self):
+        return self.item
+
     class Meta:
         unique_together = ('item', 'component', 'selected',)
 
@@ -71,6 +83,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
+
+    def get_item(self):
+        return self.changeditem.get_item()
 
     def get_price(self):
         return self.changeditem.get_changes_price() * self.amount
