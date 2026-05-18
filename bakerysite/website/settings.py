@@ -131,13 +131,20 @@ STATICFILES_DIRS = [
 
 COMPRESS_ROOT = BASE_DIR / "static"
 
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+COMPRESS_CACHEABLE_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+COMPRESS_ENABLED = True
+
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "menu"
 LOGOUT_REDIRECT_URL = "menu"
 
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
