@@ -1,7 +1,16 @@
 $secondary: #B7C297;
+$enable-negative-margins: true;
 
 @import "./bootstrap/bootstrap";
 
 .navbar {
     background-color: #E0E7D7;
+}
+
+.tbl-brd {
+    overflow: hidden;
+}
+
+.tbl {
+    margin-bottom: -1px !important;
 }

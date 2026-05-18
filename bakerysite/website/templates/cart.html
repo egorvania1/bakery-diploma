@@ -1,8 +1,52 @@
 {% extends "base.html" %}
-{% block title %} Cart {% endblock title%}
-
+{% block title %}
+    Cart
+{% endblock title %}
 {% block content %}
-<div class="container ps-3 p-2">
-    {{ form }} 
-</div>
+    <div class="container ps-3 p-2">
+        <div class="border rounded-2 tbl-brd mb-2">
+            <table class="table tbl">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Товар</th>
+                        <th scope="col"></th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Сумма</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <th scope="row">
+                                <img height="100"
+                                     width="160"
+                                     src="{{ item.get_item.image.url }}"
+                                     class="p-2 object-fit-cover rounded-4"
+                                     alt="...">
+                            </th>
+                            <td>{{ item.get_item.name }}</td>
+                            <td>{{ item.get_item.price }}</td>
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.get_price }}</td>
+                            <td>Delete</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <form method="post">
+            <div class="row">
+                <div class="col">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <div class="col">
+                    Итог: 000
+                    <button class="btn btn-secondary rounded-5" type="submit">Оформить заказ</button>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock content %}

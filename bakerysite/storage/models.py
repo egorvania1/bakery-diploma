@@ -14,13 +14,21 @@ class Order(models.Model):
         "R": "При получении",
         "C": "По карте",
     }
+
+    STATUS = {
+        "PROCESSING": "Обрабатывается",
+        "IN_BUILDING": "В готовке",
+        "IN_DELIVERY": "В доставке",
+        "RECEIVED": "Получен",
+        "CANCELLED": "Отменен",
+    }
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(blank=True, null=True)
     completion_date = models.DateTimeField(blank=True, null=True)
     delivery_type = models.CharField(max_length=10, null=True, choices=DELIVERY)
     delivery_address = models.CharField(max_length=30, null=True)
     payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT)
-    status = models.CharField(max_length=10, null=True)
+    status = models.CharField(max_length=11, null=True, choices=STATUS)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     is_ordered = models.BooleanField(default=False)
     
@@ -71,11 +79,11 @@ class ChangedItem(models.Model):
     changes = models.ManyToManyField(Changes)
 
     def get_item(self):
-        return self.changes.first()
+        return self.changes.first().item
 
     def get_changes_price(self):
         sum = 0
-        for change in self.changes.all:
+        for change in self.changes.all():
             sum += change.price
         return sum
 
@@ -88,7 +96,7 @@ class OrderItem(models.Model):
         return self.changeditem.get_item()
 
     def get_price(self):
-        return self.changeditem.get_changes_price() * self.amount
+        return (self.changeditem.get_changes_price() + self.changeditem.get_item().price) * self.amount
 
     class Meta:
         unique_together = ('order', 'changeditem',)

@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 from storage.models import Item, ChangedItem, Order, OrderItem
-
 from accounts.models import Customer
 
 from .forms import ChangesForm, CartForm
@@ -39,14 +39,25 @@ def cart(request):
     except:
         order = Order.objects.create(customer=customer)
 
+    items = OrderItem.objects.filter(order=order)
+
     if request.method == "POST":
-        form = CartForm(instance=order)
+        form = CartForm(request.POST, instance=order)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.creation_date = datetime.now()
+            instance.status = "PROCESSING"
+            instance.is_ordered = True
+            instance.save()
+            return redirect('orders')
     else:
         form = CartForm(instance=order)
 
     context = {
-        'form': form
+        'form': form,
+        'items': items,
     }
+
     return render(request, 'cart.html', context)
 
 @login_required
@@ -83,4 +94,3 @@ def item_info(request, pk):
     }
 
     return render(request, 'item_info.html', context)
-    
