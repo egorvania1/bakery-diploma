@@ -1,6 +1,43 @@
 {% extends "base.html" %}
-{% block title %} Orders {% endblock %}
-
+{% block title %}
+    Orders
+{% endblock title %}
 {% block content %}
-Orders
+    <div class="container ps-3 p-2">
+        <div class="border rounded-2 tbl-brd mb-2">
+            <table class="table tbl">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Товар</th>
+                        <th scope="col"></th>
+                        <th scope="col">Место доставки</th>
+                        <th scope="col">Дата доставки</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <th scope="row">
+                                <img height="100"
+                                     width="160"
+                                     src="{{ item.get_item.image.url }}"
+                                     class="p-2 object-fit-cover rounded-4"
+                                     alt="...">
+                            </th>
+                            <td>{{ item.get_item.name }}</td>
+                            <td>
+                                {{ item.order.delivery_address }}
+                                {{ item.order.delivery_type }}
+                            </td>
+                            <td>{{ item.order.completion_date }}</td>
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.order.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock content %}

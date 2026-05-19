@@ -10,7 +10,8 @@ from accounts.models import Customer
 
 from .forms import ChangesForm, CartForm
 
-
+def about(request):
+    return render(request, 'about.html')
 
 def menu(request):
     items = Item.objects.all()
@@ -20,45 +21,6 @@ def menu(request):
     }
 
     return render(request, 'menu.html', context)
-
-def about(request):
-    return render(request, 'about.html')
-
-@login_required
-def orders(request):
-    customer = Customer.objects.get(user=request.user)
-    orders = Order.objects.filter(customer=customer, is_ordered=True)
-
-    return render(request, 'orders.html')
-
-@login_required
-def cart(request):
-    customer = Customer.objects.get(user=request.user)
-    try:
-        order = Order.objects.get(customer=customer, is_ordered=False)
-    except:
-        order = Order.objects.create(customer=customer)
-
-    items = OrderItem.objects.filter(order=order)
-
-    if request.method == "POST":
-        form = CartForm(request.POST, instance=order)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.creation_date = datetime.now()
-            instance.status = "PROCESSING"
-            instance.is_ordered = True
-            instance.save()
-            return redirect('orders')
-    else:
-        form = CartForm(instance=order)
-
-    context = {
-        'form': form,
-        'items': items,
-    }
-
-    return render(request, 'cart.html', context)
 
 @login_required
 def item_info(request, pk):
@@ -94,3 +56,52 @@ def item_info(request, pk):
     }
 
     return render(request, 'item_info.html', context)
+
+
+@login_required
+def orders(request):
+    customer = Customer.objects.get(user=request.user)
+    orders = Order.objects.filter(customer=customer, is_ordered=True)
+
+    items = OrderItem.objects.filter(order__in=orders)
+
+    context = {
+        'items': items
+    }
+
+    return render(request, 'orders.html', context)
+
+@login_required
+def cart(request):
+    customer = Customer.objects.get(user=request.user)
+    try:
+        order = Order.objects.get(customer=customer, is_ordered=False)
+    except:
+        order = Order.objects.create(customer=customer)
+
+    items = OrderItem.objects.filter(order=order)
+
+    if request.method == "POST" and items.count() > 0:
+        form = CartForm(request.POST, instance=order)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.creation_date = datetime.now()
+            instance.status = "PROCESSING"
+            instance.is_ordered = True
+            instance.save()
+            return redirect('orders')
+    else:
+        form = CartForm(instance=order)
+
+    context = {
+        'form': form,
+        'items': items,
+        'order': order,
+    }
+
+    return render(request, 'cart.html', context)
+
+def remove_item(request, pk=None):
+    item = get_object_or_404(OrderItem, pk=pk)
+    item.delete()
+    return redirect('cart')

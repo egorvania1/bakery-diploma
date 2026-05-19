@@ -38,4 +38,5 @@ urlpatterns = [
 
 
     path('item/<int:pk>', views.item_info, name="item_info"),
+    path('delete/<int:pk>', views.remove_item, name='remove_item'),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
