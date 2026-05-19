@@ -6,13 +6,13 @@ from accounts.models import Customer, Employee
 
 class Order(models.Model):
     DELIVERY = {
-        "S": "Самовывоз",
-        "D": "Доставка",
+        "SELF": "Самовывоз",
+        "DELIVERY": "Доставка",
     }
 
     PAYMENT = {
-        "R": "При получении",
-        "C": "По карте",
+        "ON_RECEIVE": "При получении",
+        "CARD": "По карте",
     }
 
     STATUS = {
@@ -35,6 +35,11 @@ class Order(models.Model):
     class Meta:
         unique_together = ('customer', 'creation_date',)
 
+    def get_total(self):
+        order_items = OrderItem.objects.filter(order=self)
+        total = sum([order_item.get_price() for order_item in order_items])
+        return total
+
     def __str__(self):
         return f'{self.customer} + {self.creation_date}'
 
@@ -55,11 +60,11 @@ class Item(models.Model):
 
 class Changes(models.Model):
     COMPONENTS = {
-        "NO": "Нету",
-        "CR": "Крем",
-        "KO": "Корж",
-        "GL": "Глазурь",
-        "DE": "Украшение",
+        "NONE": "Нету",
+        "CREAM": "Крем",
+        "KORZH": "Корж",
+        "GLAZE": "Глазурь",
+        "DECOR": "Украшение",
     }
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     component = models.CharField(max_length=30, choices=COMPONENTS)
