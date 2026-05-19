@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     "phonenumber_field",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "storage.apps.StorageConfig",
     "accounts.apps.AccountsConfig",
 ]
@@ -152,3 +154,6 @@ STATICFILES_FINDERS = (
     # other finders..
     'compressor.finders.CompressorFinder',
 )
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
