@@ -27,16 +27,21 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
 
-    #Main pages
+    #Главные страницы
     path('', views.menu, name="menu"),
     path('about', views.about, name="about"),
-    path('orders', views.orders, name="orders"),
-    path('cart', views.cart, name="cart"),
 
-    #Accounts
-    path('accounts/', include('accounts.urls')),
-
-
+    #Товар
     path('item/<int:pk>', views.item_info, name="item_info"),
-    path('delete/<int:pk>', views.remove_item, name='remove_item'),
+
+    #Заказы
+    path('orders', views.orders, name="orders"),
+
+    #Корзина
+    path('cart', views.cart, name="cart"),
+    path('cart/delete/<int:pk>', views.remove_item, name='remove_item'),
+
+    #Аккаунты
+    path('accounts/', include('accounts.urls')),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Orders
+    Заказы
 {% endblock title %}
 {% block content %}
     <div class="container ps-3 p-2">
@@ -28,12 +28,12 @@
                             </th>
                             <td>{{ item.get_item.name }}</td>
                             <td>
-                                {{ item.order.delivery_address }}
-                                {{ item.order.delivery_type }}
+                                <p>{{ item.order.delivery_address }}</p>
+                                <p>{{ item.order.get_delivery_type_display }}</p>
                             </td>
-                            <td>{{ item.order.completion_date }}</td>
+                            <td>{{ item.order.completion_date|default_if_none:"-" }}</td>
                             <td>{{ item.amount }}</td>
-                            <td>{{ item.order.status }}</td>
+                            <td>{{ item.order.get_status_display }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}
-    Item
+    {{ item.name }}
 {% endblock title %}
 {% block content %}
     <div class="container ps-3 p-2">
-        <div class="row">
+        <div class="row pb-2">
             <div class="col">
                 <h2>{{ item.name }}</h2>
             </div>
@@ -51,7 +52,7 @@
                     <img height="300"
                          width="400"
                          src="{{ item.image.url }}"
-                         class="p-2 object-fit-cover rounded-4"
+                         class="object-fit-cover rounded-4"
                          alt="...">
                 </div>
                 <div class="col">
@@ -72,7 +73,7 @@
                              aria-labelledby="cust-tab"
                              tabindex="0">
                             {% csrf_token %}
-                            {{ form }}
+                            {{ form|crispy }}
                         </div>
                     </div>
                 </div>
@@ -80,9 +81,9 @@
             <div class="row">
                 <div class="col"></div>
                 <div class="col">
-                    <div class="row">
-                        <div class="col d-flex align-items-center justify-content-end">{{ item.price }} руб.</div>
-                        <div class="col">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="p-2">{{ item.price }} руб.</div>
+                        <div class="p-2">
                             <button class="btn btn-secondary rounded-5"
                                     type="submit"
                                     href="{% url 'menu' %}">В корзину</button>
