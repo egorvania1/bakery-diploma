@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}
-    Login
+    Вход
 {% endblock title %}
 {% block content %}
     <div class="container ps-3 p-2">
         <form method="post">
             {% csrf_token %}
-            {{ user_form }}
-            {{ profile_form }}
-            <button type="submit" name='register' value='register'>Зарегистрироваться</button>
+            {{ user_form|crispy }}
+            {{ profile_form|crispy }}
+            <button class="btn btn-secondary rounded-5" type="submit" name='register' value='register'>Зарегистрироваться</button>
         </form>
         {% for message in messages %}
             <div class="alert alert-success">

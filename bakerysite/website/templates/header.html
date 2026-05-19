@@ -1,7 +1,7 @@
 {% load static %}
 <header>
   <div class="container d-flex justify-content-between">
-    <div class="p-2">
+    <div class="pb-2 pt-2">
       <a class="navbar-brand" href="{% url 'menu' %}">
         <img src="{% static 'assets/img/logo.png' %}"
              alt="Logo"
@@ -10,14 +10,7 @@
       </a>
     </div>
     <div class="d-flex align-items-center">
-      {% if user.is_authenticated %}
-        <form method="post" action="{% url 'accounts:logout' %}">
-          {% csrf_token %}
-          <button class="btn btn-secondary rounded-5" type="submit">Выход</button>
-        </form>
-      {% else %}
-        <a class="btn btn-secondary rounded-5" href="{% url 'accounts:login' %}">Вход</a>
-      {% endif %}
+        <a class="btn btn-secondary rounded-5" href="{% url 'accounts:profile' %}">Профиль</a>
     </div>
   </div>
 </header>
@@ -32,8 +25,8 @@
       </li>
     </ul>
     <div>
-        <a class="btn btn-secondary rounded-5" href="{% url 'orders' %}">Заказы {{ order_amount }} </a>
-        <a class="btn btn-secondary rounded-5" href="{% url 'cart' %}">Корзина {{ cart_amount }}</a>
+      <a class="btn btn-secondary rounded-5" href="{% url 'orders' %}">Заказы {{ order_amount }}</a>
+      <a class="btn btn-secondary rounded-5" href="{% url 'cart' %}">Корзина {{ cart_amount }}</a>
     </div>
   </div>
 </nav>

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}
     Login
 {% endblock title %}
@@ -6,10 +7,10 @@
     <div class="container ps-3 p-2">
         <form method="post">
             {% csrf_token %}
-            {{ form_login }}
-            <button type="submit" name='login' value='login'>Войти</button>
+            {{ form_login|crispy }}
+            <button type="submit" class="btn btn-secondary rounded-5" name='login' value='login'>Войти</button>
         </form>
-        <a href="{% url 'accounts:register' %}">Регистрация</a>
+        <a class="btn btn-outline-secondary rounded-5" href="{% url 'accounts:register' %}">Регистрация</a>
         {% for message in messages %}
             <div class="alert alert-success">
                 <a class="close" href="#" data-dismiss="alert">×</a>

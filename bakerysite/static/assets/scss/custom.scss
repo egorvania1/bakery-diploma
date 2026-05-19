@@ -3,6 +3,10 @@ $enable-negative-margins: true;
 
 @import "./bootstrap/bootstrap";
 
+.btn-outline-secondary {
+    --bs-btn-color: #000000
+}
+
 .navbar {
     background-color: #E0E7D7;
 }

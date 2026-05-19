@@ -45,16 +45,16 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <img height="300"
-                     width="400"
-                     src="{{ item.image.url }}"
-                     class="p-2 object-fit-cover rounded-4"
-                     alt="...">
-            </div>
-            <div class="col">
-                <form method="post">
+        <form method="post">
+            <div class="row">
+                <div class="col">
+                    <img height="300"
+                         width="400"
+                         src="{{ item.image.url }}"
+                         class="p-2 object-fit-cover rounded-4"
+                         alt="...">
+                </div>
+                <div class="col">
                     <div class="tab-content text-center" id="myTabContent">
                         <div class="tab-pane fade show active"
                              id="desc-tab-pane"
@@ -75,21 +75,21 @@
                             {{ form }}
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col">
-                <div class="row">
-                    <div class="col d-flex align-items-center justify-content-end">{{ item.price }} руб.</div>
-                    <div class="col">
-                        <button class="btn btn-secondary rounded-5"
-                                type="submit"
-                                href="{% url 'menu' %}">В корзину</button>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col d-flex align-items-center justify-content-end">{{ item.price }} руб.</div>
+                        <div class="col">
+                            <button class="btn btn-secondary rounded-5"
+                                    type="submit"
+                                    href="{% url 'menu' %}">В корзину</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 {% endblock content %}
