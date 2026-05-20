@@ -18,3 +18,11 @@ $enable-negative-margins: true;
 .tbl {
     margin-bottom: -1px !important;
 }
+
+.tbl-head-cart {
+    --bs-table-bg: #B99B91;
+}
+
+.tbl-head-order {
+    --bs-table-bg: #B7C297;
+}

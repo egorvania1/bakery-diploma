@@ -7,34 +7,41 @@
     <div class="container ps-3 p-2">
         <div class="border rounded-2 tbl-brd mb-2">
             <table class="table tbl">
-                <thead class="table-secondary">
-                    <tr>
-                        <th scope="col">Товар</th>
-                        <th scope="col"></th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Количество</th>
-                        <th scope="col">Сумма</th>
-                        <th scope="col"></th>
+                <thead class="tbl-head-cart">
+                    <tr class="fw-normal">
+                        <th class="fw-normal" scope="col">Товар</th>
+                        <th class="fw-normal" scope="col">Цена</th>
+                        <th class="fw-normal" scope="col">Количество</th>
+                        <th class="fw-normal" scope="col">Сумма</th>
+                        <th class="fw-normal" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
-                        <tr>
-                            <th scope="row">
-                                <img height="100"
-                                     width="160"
-                                     src="{{ item.get_item.image.url }}"
-                                     class="p-2 object-fit-cover rounded-4"
-                                     alt="...">
+                        <tr class="align-middle">
+                            <th class="fw-normal" scope="row">
+                                <div class="d-flex flex-row align-items-center justify-content-start">
+                                    <div class="p-2">
+                                        <img height="100"
+                                             width="160"
+                                             src="{{ item.get_item.image.url }}"
+                                             class="img-fluid p-2 object-fit-cover rounded-4"
+                                             alt="...">
+                                    </div>
+                                    <div class="p-2">{{ item.get_item.name }}</div>
+                                </div>
                             </th>
-                            <td>{{ item.get_item.name }}</td>
                             <td>{{ item.get_item.price }}</td>
                             <td>{{ item.amount }}</td>
                             <td>{{ item.get_price }}</td>
                             <td>
                                 <form action="{% url 'remove_item' pk=item.pk %}" method="post">
                                     {% csrf_token %}
-                                    <input class="btn btn-default btn-danger" type="submit" value="Delete" />
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn" type="submit">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
                                 </form>
                             </td>
                         </tr>
@@ -44,16 +51,16 @@
         </div>
         <form method="post">
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     {% csrf_token %}
                     {{ form|crispy }}
                 </div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col d-flex align-items-center justify-content-end">Итог: {{ order.get_total }} руб.</div>
-                        <div class="col">
+                <div class="col align-self-end">
+                    <div class="d-flex flex-row-reverse pb-2">
+                        <div class="p-2">
                             <button class="btn btn-secondary rounded-5" type="submit">Оформить заказ</button>
-                        </div>
+                        </div class="p-2">
+                        <div class="d-flex align-items-center">Итог: {{ order.get_total }} руб.</div>
                     </div>
                 </div>
             </div>

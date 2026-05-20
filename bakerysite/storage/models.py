@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator 
 from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.models import Customer, Employee
@@ -30,7 +31,7 @@ class Order(models.Model):
     payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT)
     status = models.CharField(max_length=11, null=True, choices=STATUS)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
-    is_ordered = models.BooleanField(default=False)
+    is_ordered = models.BooleanField(default=False) #убрать
     
     class Meta:
         unique_together = ('customer', 'creation_date',)
@@ -48,7 +49,7 @@ class Item(models.Model):
     weight = models.IntegerField()
     description = models.CharField(max_length=300)
     contents = models.CharField(max_length=100)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
     image = models.ImageField(upload_to="static/uploads/")
 
@@ -69,8 +70,8 @@ class Changes(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     component = models.CharField(max_length=30, choices=COMPONENTS)
     selected = models.CharField(max_length=30)
-    price = models.IntegerField()
-
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    
     def get_item(self):
         return self.item
 
@@ -95,7 +96,7 @@ class ChangedItem(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
-    amount = models.IntegerField(default=1)
+    amount = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
 
     def get_item(self):
         return self.changeditem.get_item()

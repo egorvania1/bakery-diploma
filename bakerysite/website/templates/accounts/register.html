@@ -4,18 +4,28 @@
     Регистрация
 {% endblock title %}
 {% block content %}
-    <div class="container ps-3 p-2">
-        <form method="post">
-            {% csrf_token %}
-            {{ user_form|crispy }}
-            {{ profile_form|crispy }}
-            <button class="btn btn-secondary rounded-5" type="submit" name='register' value='register'>Зарегистрироваться</button>
-        </form>
-        {% for message in messages %}
-            <div class="alert alert-success">
-                <a class="close" href="#" data-dismiss="alert">×</a>
-                {{ message }}
+    <div class="container ps-3 pt-5 p-2">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <h2 class="text-center">Регистрация</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ user_form|crispy }}
+                    {{ profile_form|crispy }}
+                    <div class="d-grid gap-2 col-6 mx-auto pt-4">
+                        <button class="btn btn-outline-secondary rounded-3"
+                                type="submit"
+                                name='register'
+                                value='register'>Зарегистрироваться</button>
+                    </div>
+                </form>
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
 {% endblock content %}

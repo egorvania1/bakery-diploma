@@ -6,30 +6,33 @@
     <div class="container ps-3 p-2">
         <div class="border rounded-2 tbl-brd mb-2">
             <table class="table tbl">
-                <thead class="table-secondary">
+                <thead class="tbl-head-order">
                     <tr>
-                        <th scope="col">Товар</th>
-                        <th scope="col"></th>
-                        <th scope="col">Место доставки</th>
-                        <th scope="col">Дата доставки</th>
-                        <th scope="col">Количество</th>
-                        <th scope="col">Статус</th>
+                        <th class="fw-normal" scope="col">Товар</th>
+                        <th class="fw-normal" scope="col">Место доставки</th>
+                        <th class="fw-normal" scope="col">Дата доставки</th>
+                        <th class="fw-normal" scope="col">Количество</th>
+                        <th class="fw-normal" scope="col">Статус</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
-                        <tr>
-                            <th scope="row">
-                                <img height="100"
-                                     width="160"
-                                     src="{{ item.get_item.image.url }}"
-                                     class="p-2 object-fit-cover rounded-4"
-                                     alt="...">
+                        <tr class="align-middle">
+                            <th class="fw-normal" scope="row">
+                                <div class="d-flex flex-row align-items-center justify-content-start">
+                                    <div class="p-2">
+                                        <img height="100"
+                                             width="160"
+                                             src="{{ item.get_item.image.url }}"
+                                             class="img-fluid p-2 object-fit-cover rounded-4"
+                                             alt="...">
+                                    </div>
+                                    <div class="p-2">{{ item.get_item.name }}</div>
+                                </div>
                             </th>
-                            <td>{{ item.get_item.name }}</td>
                             <td>
-                                <p>{{ item.order.delivery_address }}</p>
-                                <p>{{ item.order.get_delivery_type_display }}</p>
+                                {{ item.order.delivery_address }}<br/>
+                                {{ item.order.get_delivery_type_display }}
                             </td>
                             <td>{{ item.order.completion_date|default_if_none:"-" }}</td>
                             <td>{{ item.amount }}</td>

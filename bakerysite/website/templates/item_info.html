@@ -14,7 +14,7 @@
                     id="myTab"
                     role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active"
+                        <button class="nav-link active text-black"
                                 id="desc-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#desc-tab-pane"
@@ -24,7 +24,7 @@
                                 aria-selected="true">Описание</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link text-black"
                                 id="cont-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#cont-tab-pane"
@@ -34,7 +34,7 @@
                                 aria-selected="false">Состав</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link"
+                        <button class="nav-link text-black"
                                 id="cust-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#cust-tab-pane"
@@ -55,9 +55,9 @@
                          class="object-fit-cover rounded-4"
                          alt="...">
                 </div>
-                <div class="col">
-                    <div class="tab-content text-center" id="myTabContent">
-                        <div class="tab-pane fade show active"
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="tab-content text-center w-100 ms-5 me-5 p-2" id="myTabContent">
+                        <div class="tab-pane fade show active flex-fill"
                              id="desc-tab-pane"
                              role="tabpanel"
                              aria-labelledby="desc-tab"
@@ -84,7 +84,7 @@
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="p-2">{{ item.price }} руб.</div>
                         <div class="p-2">
-                            <button class="btn btn-secondary rounded-5"
+                            <button class="btn btn-secondary rounded-3"
                                     type="submit"
                                     href="{% url 'menu' %}">В корзину</button>
                         </div>
