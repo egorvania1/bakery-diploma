@@ -43,6 +43,7 @@ def register_view(request):
     if request.method == "POST":
         user_form = UserRegisterForm(data=request.POST)
         profile_form = ProfileRegisterForm(data=request.POST)
+
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.user_type = "CUSTOMER"
@@ -73,11 +74,20 @@ def profile_view(request):
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user)
         profile_form = ProfileEditForm(request.POST, instance=customer)
-        pass_form = PasswordEditForm(request.POST, instance=customer)
+        pass_form = PasswordEditForm(request.POST)
+        password = request.POST.get('password')
+
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             update_session_auth_hash(request, user)
             profile_form.save()
+
+            if pass_form.is_valid() and password != "":
+                user.set_password(password)
+                user.save()
+                update_session_auth_hash(request, user)
+
+        
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=customer)

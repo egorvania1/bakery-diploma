@@ -9,8 +9,16 @@
         <form method="post">
             {% csrf_token %}
             {{ profile_form|crispy }}
-            {{ user_form|crispy }}
-            {{ pass_form|crispy }}
+            <div class="row">
+                <div class="col">{{ user_form.first_name|as_crispy_field }}</div>
+                <div class="col">{{ user_form.last_name|as_crispy_field }}</div>
+                <div class="col">{{ user_form.patronymic|as_crispy_field }}</div>
+            </div>
+            {{ user_form.username|as_crispy_field }}
+            <div class="row">
+                <div class="col">{{ pass_form.password|as_crispy_field }}</div>
+                <div class="col">{{ pass_form.password_conf|as_crispy_field }}</div>
+            </div>
             <div class="d-grid gap-2 col-2 pb-2">
                 <button class="btn btn-secondary rounded-3" type="submit">Сохранить изменения</button>
             </div>

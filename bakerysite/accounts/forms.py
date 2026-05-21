@@ -15,6 +15,9 @@ class UserRegisterForm(forms.ModelForm):
     class Meta:
         model=User
         fields=['first_name', 'username', 'password']
+        help_texts = { 
+            'username': None 
+        } 
 
     def clean(self):
         cleaned_data = super(UserRegisterForm, self).clean()
@@ -31,7 +34,7 @@ class UserRegisterForm(forms.ModelForm):
 class ProfileRegisterForm(forms.ModelForm):
     class Meta:
         model=Customer
-        fields=('phone',)
+        fields=['phone',]
 
 class UserEditForm(forms.ModelForm):
     patronymic = forms.CharField(required=False, label="Отчество")
@@ -39,11 +42,15 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model=User
         fields=['first_name', 'last_name', 'patronymic', 'username']
+        help_texts = { 
+            'username': None 
+        } 
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model=Customer
-        fields=('phone',)
+        fields=['phone',]
+        
 
 class PasswordEditForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(), max_length=50, label="Пароль", required=False)
