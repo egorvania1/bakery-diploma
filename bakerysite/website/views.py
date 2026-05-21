@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
 
 from storage.models import Item, ChangedItem, Order, OrderItem
@@ -10,9 +10,15 @@ from accounts.models import Customer
 
 from .forms import ChangesForm, CartForm
 
+def customer_check(user):
+    return user.is_staff == False
+   #return user.user_type == "CUSTOMER"
+
+@user_passes_test(customer_check)
 def about(request):
     return render(request, 'about.html')
 
+@user_passes_test(customer_check)
 def menu(request):
     items = Item.objects.all()
 
@@ -23,6 +29,7 @@ def menu(request):
     return render(request, 'menu.html', context)
 
 @login_required
+@user_passes_test(customer_check)
 def item_info(request, pk):
     item = get_object_or_404(Item, pk=pk)
     if request.method == "POST":
@@ -59,6 +66,7 @@ def item_info(request, pk):
 
 
 @login_required
+@user_passes_test(customer_check)
 def orders(request):
     customer = Customer.objects.get(user=request.user)
     orders = Order.objects.filter(customer=customer, is_ordered=True)
@@ -72,6 +80,7 @@ def orders(request):
     return render(request, 'orders.html', context)
 
 @login_required
+@user_passes_test(customer_check)
 def cart(request):
     customer = Customer.objects.get(user=request.user)
     try:
@@ -101,17 +110,20 @@ def cart(request):
 
     return render(request, 'cart.html', context)
 
+@user_passes_test(customer_check)
 def remove_item(request, pk=None):
     item = get_object_or_404(OrderItem, pk=pk)
     item.delete()
     return redirect('cart')
 
+@user_passes_test(customer_check)
 def increase_amount(request, pk=None):
     item = get_object_or_404(OrderItem, pk=pk)
     item.amount += 1
     item.save()
     return redirect('cart')
 
+@user_passes_test(customer_check)
 def decrease_amount(request, pk=None):
     item = get_object_or_404(OrderItem, pk=pk)
     if item.amount > 1:

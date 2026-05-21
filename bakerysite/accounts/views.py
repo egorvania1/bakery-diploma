@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
 #from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, login, update_session_auth_hash, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .forms import UserLoginForm, UserRegisterForm, ProfileRegisterForm, UserEditForm, ProfileEditForm, PasswordEditForm
 from accounts.models import User, Customer
 
+def customer_check(user):
+   return user.is_staff == False
+   #return user.is_staff
+
 # Create your views here.
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect("menu")
+    if request.user.is_staff: logout(request)
 
     next_url = request.GET.get("next", "menu")
 
@@ -35,7 +38,7 @@ def login_view(request):
 
     return render(request, "accounts/login.html", context)
 
-
+@user_passes_test(customer_check)
 def register_view(request):
     if request.user.is_authenticated:
         return redirect("menu")
@@ -68,6 +71,7 @@ def register_view(request):
     return render(request, "accounts/register.html", context)
 
 @login_required
+@user_passes_test(customer_check)
 def profile_view(request):
     customer = Customer.objects.get(user=request.user)
 
