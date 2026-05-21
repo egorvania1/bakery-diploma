@@ -105,3 +105,16 @@ def remove_item(request, pk=None):
     item = get_object_or_404(OrderItem, pk=pk)
     item.delete()
     return redirect('cart')
+
+def increase_amount(request, pk=None):
+    item = get_object_or_404(OrderItem, pk=pk)
+    item.amount += 1
+    item.save()
+    return redirect('cart')
+
+def decrease_amount(request, pk=None):
+    item = get_object_or_404(OrderItem, pk=pk)
+    if item.amount > 1:
+        item.amount -= 1
+        item.save()
+    return redirect('cart')

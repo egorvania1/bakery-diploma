@@ -1,46 +1,62 @@
 from phonenumber_field.formfields import PhoneNumberField
 from django import forms
-from django.contrib.auth.models import User
-from .models import Customer
+#from django.contrib.auth.models import User
+from .models import Customer, User
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField(max_length=50)
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(max_length=150, label="Имя пользователя")
+    password = forms.CharField(widget=forms.PasswordInput(), max_length=50, label="Пароль")
 
 class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password_conf=forms.CharField(widget=forms.PasswordInput(), label="Подтвердите пароль")
+    password = forms.CharField(widget=forms.PasswordInput(), max_length=50, label="Пароль")
+    first_name = forms.CharField(required=True, label="Ваше имя")
+
     class Meta:
         model=User
-        fields=('username', 'password',)
+        fields=['first_name', 'username', 'password']
+
+    def clean(self):
+        cleaned_data = super(UserRegisterForm, self).clean()
+        password = cleaned_data.get("password")
+        password_conf = cleaned_data.get("password_conf")
+
+        if password != password_conf:
+            raise forms.ValidationError(
+                "Пароли не совпадают"
+            )
+        
+        return cleaned_data
 
 class ProfileRegisterForm(forms.ModelForm):
     class Meta:
         model=Customer
         fields=('phone',)
 
-class ProfileEditForm(forms.ModelForm):
-    username = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
+class UserEditForm(forms.ModelForm):
+    patronymic = forms.CharField(required=False, label="Отчество")
 
     class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        model=User
+        fields=['first_name', 'last_name', 'patronymic', 'username']
 
-    def clean_email(self):
-        username = self.cleaned_data.get('username')
-        email = self.cleaned_data.get('email')
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model=Customer
+        fields=('phone',)
 
-        if email and User.objects.filter(email=email).exclude(username=username).count():
-            raise forms.ValidationError('This email address is already in use. Please supply a different email address.')
-        return email
+class PasswordEditForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(), max_length=50, label="Пароль", required=False)
+    password_conf = forms.CharField(widget=forms.PasswordInput(), label="Подтвердите пароль", required=False)
 
-    def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
+    def clean(self):
+        cleaned_data = super(PasswordEditForm, self).clean()
+        password = cleaned_data.get("password")
+        password_conf = cleaned_data.get("password_conf")
 
-        if commit:
-            user.save()
-
-        return user
+        if password != password_conf:
+            raise forms.ValidationError(
+                "Пароли не совпадают"
+            )
+        
+        return cleaned_data

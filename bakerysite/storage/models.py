@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from accounts.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -71,7 +72,7 @@ class Changes(models.Model):
     component = models.CharField(max_length=30, choices=COMPONENTS)
     selected = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    
+
     def get_item(self):
         return self.item
 

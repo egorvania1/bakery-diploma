@@ -32,7 +32,17 @@
                                 </div>
                             </th>
                             <td>{{ item.get_item.price }}</td>
-                            <td>{{ item.amount }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <div class="p-2 border border-end-0 rounded-start-2 position-relative btn-amount">
+                                        <a class="stretched-link text-black link-underline link-underline-opacity-0" href="{% url 'decrease_amount' pk=item.pk %}">-</a>
+                                    </div>
+                                    <div class="p-2 border px-4 text-center">{{ item.amount }}</div>
+                                    <div class="p-2 border border-start-0 rounded-end-2 position-relative btn-amount">
+                                        <a class="stretched-link text-black link-underline link-underline-opacity-0" href="{% url 'increase_amount' pk=item.pk %}">+</a>
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ item.get_price }}</td>
                             <td>
                                 <form action="{% url 'remove_item' pk=item.pk %}" method="post">
@@ -58,7 +68,7 @@
                 <div class="col align-self-end">
                     <div class="d-flex flex-row-reverse pb-2">
                         <div class="p-2">
-                            <button class="btn btn-secondary rounded-5" type="submit">Оформить заказ</button>
+                            <button class="btn btn-secondary rounded-2" type="submit">Оформить заказ</button>
                         </div class="p-2">
                         <div class="d-flex align-items-center">Итог: {{ order.get_total }} руб.</div>
                     </div>

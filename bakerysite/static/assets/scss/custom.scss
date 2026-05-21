@@ -3,6 +3,10 @@ $enable-negative-margins: true;
 
 @import "./bootstrap/bootstrap";
 
+.btn-amount:hover {
+    background-color: #f7f7f7;
+}
+
 .btn-outline-secondary {
     --bs-btn-color: #000000
 }

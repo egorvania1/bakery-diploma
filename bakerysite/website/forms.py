@@ -19,9 +19,14 @@ class ChangesForm(forms.Form):
             for value in value_list:
                 available = item_changes.filter(component=value)
                 display_name = available.first().get_component_display()
-                self.fields['custom_%s' % value] = forms.ModelChoiceField(queryset=available, label=display_name, required = True)
+                self.fields[f"{value}"] = forms.ModelChoiceField(queryset=available, label=display_name, required = True)
 
 class CartForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ["delivery_type", "delivery_address", "payment_type"]
+        labels = {
+            "delivery_type": "Способ доставки",
+            "delivery_address": "Адрес доставки",
+            "payment_type": "Способ оплаты"
+        }

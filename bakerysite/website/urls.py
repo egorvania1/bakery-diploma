@@ -40,6 +40,8 @@ urlpatterns = [
     #Корзина
     path('cart', views.cart, name="cart"),
     path('cart/delete/<int:pk>', views.remove_item, name='remove_item'),
+    path('cart/increase/<int:pk>', views.increase_amount, name='increase_amount'),
+    path('cart/decrease/<int:pk>', views.decrease_amount, name='decrease_amount'),
 
     #Аккаунты
     path('accounts/', include('accounts.urls')),

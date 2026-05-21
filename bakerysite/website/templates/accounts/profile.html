@@ -8,7 +8,9 @@
         <h2>Профиль</h2>
         <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
+            {{ profile_form|crispy }}
+            {{ user_form|crispy }}
+            {{ pass_form|crispy }}
             <div class="d-grid gap-2 col-2 pb-2">
                 <button class="btn btn-secondary rounded-3" type="submit">Сохранить изменения</button>
             </div>
