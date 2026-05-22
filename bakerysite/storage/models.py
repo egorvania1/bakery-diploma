@@ -31,7 +31,7 @@ class Order(models.Model):
     delivery_address = models.CharField(max_length=30, null=True)
     payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT)
     status = models.CharField(max_length=11, null=True, choices=STATUS)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     is_ordered = models.BooleanField(default=False) #убрать
     
     class Meta:
@@ -81,30 +81,28 @@ class Changes(models.Model):
 
     def __str__(self):
         return f'{self.selected} {self.price}'
-    
-class ChangedItem(models.Model):
-    changes = models.ManyToManyField(Changes)
-
-    def get_item(self):
-        return self.changes.first().item
-
-    def get_changes_price(self):
-        sum = 0
-        for change in self.changes.all():
-            sum += change.price
-        return sum
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
+    #changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
+    changeditem = models.ManyToManyField(Changes)
     amount = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
 
     def get_item(self):
-        return self.changeditem.get_item()
+        return self.changeditem.first().item
+
+    def get_changes_price(self):
+        sum = 0
+        for change in self.changeditem.all():
+            sum += change.price
+        return sum
+
+    def get_item_price(self):
+        return self.get_changes_price() + self.get_item().price
 
     def get_price(self):
-        return (self.changeditem.get_changes_price() + self.changeditem.get_item().price) * self.amount
+        return self.get_item_price() * self.amount
 
-    class Meta:
-        unique_together = ('order', 'changeditem',)
+    #class Meta:
+    #    unique_together = ('order', 'changeditem',)
 

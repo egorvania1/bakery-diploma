@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
 
-from storage.models import Item, ChangedItem, Order, OrderItem
+from storage.models import Item, Order, OrderItem
 from accounts.models import Customer
 
 from .forms import ChangesForm, CartForm
@@ -36,20 +36,18 @@ def item_info(request, pk):
         form = ChangesForm(request.POST, item=item)
         if form.is_valid():
 
-            #Собираем выбранные пользователем изменения
-            changesinitem = ChangedItem()
-            changesinitem.save()
-            for field in form.cleaned_data:
-                changesinitem.changes.add(form.cleaned_data[field])
-            changesinitem.save()
-
             #Добавляем товар в корзину (и создаем её при необходимости)
             customer = Customer.objects.get(user=request.user)
             try:
-                order = Order.objects.get(customer=customer, is_ordered=False)
+                order = Order.objects.get(customer=customer, creation_date=None)
             except:
                 order = Order.objects.create(customer=customer)
-            orderitem = OrderItem.objects.create(order=order, changeditem=changesinitem)
+
+            #Собираем выбранные пользователем изменения
+            orderitem = OrderItem.objects.create(order=order)
+            for field in form.cleaned_data:
+                orderitem.changeditem.add(form.cleaned_data[field])
+            orderitem.save()
             
             return HttpResponseRedirect("/")
         else:
@@ -69,7 +67,7 @@ def item_info(request, pk):
 @user_passes_test(customer_check)
 def orders(request):
     customer = Customer.objects.get(user=request.user)
-    orders = Order.objects.filter(customer=customer, is_ordered=True)
+    orders = Order.objects.exclude(creation_date=None).filter(customer=customer)
 
     items = OrderItem.objects.filter(order__in=orders)
 
@@ -84,7 +82,7 @@ def orders(request):
 def cart(request):
     customer = Customer.objects.get(user=request.user)
     try:
-        order = Order.objects.get(customer=customer, is_ordered=False)
+        order = Order.objects.get(customer=customer, creation_date=None)
     except:
         order = Order.objects.create(customer=customer)
 
