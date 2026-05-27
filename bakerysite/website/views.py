@@ -91,10 +91,10 @@ def cart(request):
     items = OrderItem.objects.filter(order=order)
 
     if request.method == "POST":
+        form = CartForm(request.POST, instance=order)
         if items.count() <= 0:
             messages.error(request, 'Отсутствуют товары в корзине')
-        form = CartForm(request.POST, instance=order)
-        if form.is_valid():
+        elif form.is_valid():
             instance = form.save(commit=False)
             instance.creation_date = datetime.now(tz=timezone.UTC)
             instance.status = "PROCESSING"
