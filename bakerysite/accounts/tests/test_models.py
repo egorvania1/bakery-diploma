@@ -2,7 +2,7 @@ from django.test import TestCase
 from accounts.models import User, Customer, Employee
 
 
-class AccountsCustomerTest(TestCase):
+class TestAccountsModelCreateTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username="testuser", password="passwordfortesting"

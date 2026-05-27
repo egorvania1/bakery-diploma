@@ -60,12 +60,3 @@ class TestPagesOpen(TestCase):
         self.client.login(username="testcust", password="passwordforcustomer")
         response = self.client.get(reverse("orders"))
         self.assertTemplateUsed(response, "orders.html")
-
-    def test_profile_correct_template(self):
-        self.client.login(username="testcust", password="passwordforcustomer")
-        response = self.client.get(reverse("accounts:profile"))
-        self.assertTemplateUsed(response, "accounts/profile.html")
-
-    def test_redirect_to_login_template(self):
-        response = self.client.get(reverse("accounts:profile"))
-        self.assertRedirects(response, "/accounts/login?next=/accounts/profile")

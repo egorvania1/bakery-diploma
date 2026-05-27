@@ -5,7 +5,7 @@ from accounts.models import User, Customer, Employee
 from datetime import datetime
 
 
-class StorageItemCreationTest(TestCase):
+class TestStorageItemCreationTest(TestCase):
     def test_can_create_item(self):
         try:
             item = Item.objects.create(
@@ -22,7 +22,7 @@ class StorageItemCreationTest(TestCase):
             self.fail("Can't create Item")
 
 
-class StorageOrderCreationTest(TestCase):
+class TestStorageOrderCreationTest(TestCase):
     def setUp(self):
         self.user_c = User.objects.create_user(
             username="testcust", password="passwordforcustomer"
@@ -63,7 +63,7 @@ class StorageOrderCreationTest(TestCase):
             self.fail("Can't create Order")
 
 
-class StorageMethodsTest(TestCase):
+class TestStorageMethodsTest(TestCase):
     def setUp(self):
         self.user_c = User.objects.create_user(
             username="testcust", password="passwordforcustomer"
