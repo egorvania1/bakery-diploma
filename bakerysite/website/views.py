@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 from datetime import datetime
 
 from storage.models import Item, Order, OrderItem
@@ -88,7 +89,9 @@ def cart(request):
 
     items = OrderItem.objects.filter(order=order)
 
-    if request.method == "POST" and items.count() > 0:
+    if request.method == "POST":
+        if items.count() <= 0:
+            messages.error(request, 'Отсутствуют товары в корзине')
         form = CartForm(request.POST, instance=order)
         if form.is_valid():
             instance = form.save(commit=False)

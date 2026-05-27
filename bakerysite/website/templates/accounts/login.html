@@ -11,7 +11,7 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form_login|crispy }}
-                    <div class="d-grid gap-2 col-4 mx-auto pt-4">
+                    <div class="d-grid gap-2 col-4 mx-auto py-4 ">
                         <button type="submit"
                                 class="btn btn-secondary rounded-3 align-items-center p-2"
                                 name='login'
@@ -21,8 +21,7 @@
                     </div>
                 </form>
                 {% for message in messages %}
-                    <div class="alert alert-success">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
+                    <div class="alert alert-warning">
                         {{ message }}
                     </div>
                 {% endfor %}

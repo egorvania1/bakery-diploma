@@ -32,7 +32,6 @@ class Order(models.Model):
     payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT)
     status = models.CharField(max_length=11, null=True, choices=STATUS)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
-    is_ordered = models.BooleanField(default=False) #убрать
     
     class Meta:
         unique_together = ('customer', 'creation_date',)

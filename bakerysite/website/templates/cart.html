@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
     Корзина
@@ -35,11 +36,13 @@
                             <td>
                                 <div class="d-flex">
                                     <div class="p-2 border border-end-0 rounded-start-2 position-relative btn-amount">
-                                        <a class="stretched-link text-black link-underline link-underline-opacity-0" href="{% url 'decrease_amount' pk=item.pk %}">-</a>
+                                        <a class="stretched-link text-black link-underline link-underline-opacity-0"
+                                           href="{% url 'decrease_amount' pk=item.pk %}">-</a>
                                     </div>
                                     <div class="p-2 border px-4 text-center">{{ item.amount }}</div>
                                     <div class="p-2 border border-start-0 rounded-end-2 position-relative btn-amount">
-                                        <a class="stretched-link text-black link-underline link-underline-opacity-0" href="{% url 'increase_amount' pk=item.pk %}">+</a>
+                                        <a class="stretched-link text-black link-underline link-underline-opacity-0"
+                                           href="{% url 'increase_amount' pk=item.pk %}">+</a>
                                     </div>
                                 </div>
                             </td>
@@ -75,5 +78,13 @@
                 </div>
             </div>
         </form>
+        {% for message in messages %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static "assets/js/cart.js" %}"></script>
+{% endblock scripts %}

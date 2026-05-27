@@ -13,7 +13,9 @@ def customer_check(user):
 
 # Create your views here.
 def login_view(request):
-    if request.user.is_staff: logout(request)
+    if request.user.is_staff: 
+        messages.error(request, 'Войдите в аккаунт покупателя чтобы продолжить')
+        logout(request)
 
     next_url = request.GET.get("next", "menu")
 
@@ -24,11 +26,13 @@ def login_view(request):
             password = request.POST["password"]
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect(next_url)
+                if user.is_staff:
+                    messages.error(request, 'Войдите в аккаунт покупателя чтобы продолжить')
+                else:
+                    login(request, user)
+                    return redirect(next_url)
             else:
                 messages.error(request, "Неверное имя пользователя или пароль")
-                # return redirect('accounts:login')
     else:
         form = UserLoginForm()
 
@@ -49,7 +53,6 @@ def register_view(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
-            user.user_type = "CUSTOMER"
             user.set_password(user.password)
 
             profile = profile_form.save(commit=False)
@@ -57,7 +60,6 @@ def register_view(request):
 
             profile.save()
             user.save()
-            # messages.error(request, "Аккаунт создан!")
             return redirect('accounts:login')
     else:
         user_form = UserRegisterForm()

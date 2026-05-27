@@ -12,7 +12,7 @@
                     {% csrf_token %}
                     {{ profile_form|crispy }}
                     {{ user_form|crispy }}
-                    <div class="d-grid gap-2 col-6 mx-auto pt-4">
+                    <div class="d-grid gap-2 col-6 mx-auto py-4">
                         <button class="btn btn-outline-secondary rounded-3"
                                 type="submit"
                                 name='register'
@@ -20,8 +20,7 @@
                     </div>
                 </form>
                 {% for message in messages %}
-                    <div class="alert alert-success">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
+                    <div class="alert alert-warning">
                         {{ message }}
                     </div>
                 {% endfor %}
