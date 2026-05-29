@@ -50,7 +50,7 @@ class Order(models.Model):
         return total
 
     def __str__(self):
-        return f"{self.customer} + {self.creation_date}"
+        return f"{self.customer} {self.creation_date}"
 
 
 class Item(models.Model):
@@ -132,5 +132,7 @@ class OrderItem(models.Model):
     def get_price(self):
         return self.get_item_price() * self.amount
 
+    def __str__(self):
+        return self.get_item().name
     # class Meta:
     #    unique_together = ('order', 'changeditem',)

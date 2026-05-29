@@ -31,7 +31,7 @@ class Employee(models.Model):
         )
 
         verbose_name = "Сотрудник"
-        verbose_name_plural = "Сотрдуники"
+        verbose_name_plural = "Сотрудники"
 
     def __str__(self):
         return str(self.user)

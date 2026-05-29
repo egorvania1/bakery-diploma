@@ -43,7 +43,7 @@ def item_info(request, pk):
             try:
                 order = Order.objects.get(customer=customer, creation_date=None)
             except:
-                order = Order.objects.create(customer=customer)
+                order = Order.objects.create(customer=customer, creation_date=None)
 
             #Собираем выбранные пользователем изменения
             orderitem = OrderItem.objects.create(order=order)

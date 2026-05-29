@@ -1,6 +1,17 @@
 from django.contrib import admin
 
-from .models import Customer, Employee
+from .models import Customer, Employee, User
 
-admin.site.register(Customer)
-admin.site.register(Employee)
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    pass

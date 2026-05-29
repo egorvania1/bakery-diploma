@@ -25,11 +25,7 @@
                                     <div class="p-2">
                                         <img height="100"
                                              width="160"
-                                             {% if item.get_item.image %}
-                                                src="{{ item.get_item.image.url }}"
-                                             {% else %}
-                                                src="{% static 'assets/img/item.png' %}" 
-                                             {% endif %}
+                                             {% if item.get_item.image %} src="{{ item.get_item.image.url }}" {% else %} src="{% static 'assets/img/item.png' %}" {% endif %}
                                              class="img-fluid p-2 object-fit-cover rounded-4"
                                              alt="...">
                                     </div>
@@ -83,7 +79,11 @@
             </div>
         </form>
         {% for message in messages %}
-            <div class="alert alert-warning">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"></button>
                 {{ message }}
             </div>
         {% endfor %}
