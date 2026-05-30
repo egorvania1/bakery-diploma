@@ -26,7 +26,7 @@ class Order(models.Model):
         "RECEIVED": "Получен",
         "CANCELLED": "Отменен",
     }
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name="Покупатель")
     creation_date = models.DateTimeField(blank=True, null=True, verbose_name="Дата оформления")
     completion_date = models.DateTimeField(blank=True, null=True, verbose_name="Дата завершения")
     delivery_type = models.CharField(max_length=10, null=True, choices=DELIVERY, verbose_name="Тип доставки")
@@ -106,11 +106,11 @@ class Changes(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ")
-    # changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
-    changeditem = models.ManyToManyField(Changes, verbose_name="Изменения")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ", blank=False, null=False)
+    #changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
+    changeditem = models.ManyToManyField(Changes, verbose_name="Изменения", blank=False, null=False)
     amount = models.PositiveIntegerField(
-        default=1, validators=[MinValueValidator(1), MaxValueValidator(100)], verbose_name="Количество"
+        default=1, validators=[MinValueValidator(1), MaxValueValidator(100)], verbose_name="Количество", blank=False, null=False
     )
 
     class Meta:
@@ -133,6 +133,7 @@ class OrderItem(models.Model):
         return self.get_item_price() * self.amount
 
     def __str__(self):
-        return self.get_item().name
-    # class Meta:
-    #    unique_together = ('order', 'changeditem',)
+        return f"{self.get_item().name}"
+    
+    #class Meta:
+    #   unique_together = ('order', 'changeditem',)

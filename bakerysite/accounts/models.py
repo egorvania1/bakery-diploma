@@ -8,7 +8,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class User(AbstractUser):
-    patronymic = models.CharField(max_length=100, verbose_name="Отчество")
+    patronymic = models.CharField(max_length=100, verbose_name="Отчество", blank=True)
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 
 class Employee(models.Model):
@@ -34,7 +38,7 @@ class Employee(models.Model):
         verbose_name_plural = "Сотрудники"
 
     def __str__(self):
-        return str(self.user)
+        return f"{self.get_role_display()} {self.user.first_name}"
 
 
 class Customer(models.Model):

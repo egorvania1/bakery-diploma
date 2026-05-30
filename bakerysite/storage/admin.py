@@ -11,13 +11,41 @@ class ItemAdmin(admin.ModelAdmin):
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    #fields = ('changeditem', 'amount')
-    #readonly_fields = ('changeditem', 'amount')
+
+    #def view_item(self, obj):
+    #    result = obj.get_item().name
+    #    return result
+
+    @admin.display(description="Изменения")
+    def view_changes(self, obj):
+        result = ""
+        for change in obj.changeditem.all():
+            result += f"{change.get_component_display()} {change.selected} {change.price}\n"
+        return result
+
+    @admin.display(description="Цена")
+    def view_item_price(self, obj):
+        return f"{obj.get_item_price()} руб."
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    exclude= ('changeditem', )
+    readonly_fields = ('view_changes', 'amount', 'view_item_price')
+    
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["customer", "creation_date", "status"]
+
+    @admin.display(description="Стоимость")
+    def view_total_price(self, obj):
+        return f"{obj.get_total()} руб."
+
+    list_display = ["customer", "creation_date", "status", "view_total_price"]
     list_filter = ("customer", "status", "creation_date",)
 
     inlines = [
