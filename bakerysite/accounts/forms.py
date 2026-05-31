@@ -32,7 +32,7 @@ class UserRegisterForm(forms.ModelForm):
         return cleaned_data
 
 class ProfileRegisterForm(forms.ModelForm):
-    phone = PhoneNumberField(region="RU", error_messages={'unique':"Пользователь с таким номером телефона уже существует."})
+    phone = PhoneNumberField(region="RU", label="Номер телефона", error_messages={'unique':"Пользователь с таким номером телефона уже существует."})
 
     class Meta:
         model=Customer
@@ -49,7 +49,7 @@ class UserEditForm(forms.ModelForm):
         } 
 
 class ProfileEditForm(forms.ModelForm):
-    phone = PhoneNumberField(region="RU", error_messages={'unique':"Пользователь с таким номером телефона уже существует."})
+    phone = PhoneNumberField(region="RU", label="Номер телефона", error_messages={'unique':"Пользователь с таким номером телефона уже существует."})
     class Meta:
         model=Customer
         fields=['phone',]

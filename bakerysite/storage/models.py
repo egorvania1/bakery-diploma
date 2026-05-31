@@ -108,7 +108,7 @@ class Changes(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ", blank=False, null=False)
     #changeditem = models.ForeignKey(ChangedItem, on_delete=models.CASCADE)
-    changeditem = models.ManyToManyField(Changes, verbose_name="Изменения", blank=False, null=False)
+    changeditem = models.ManyToManyField(Changes, verbose_name="Изменения", blank=False)
     amount = models.PositiveIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(100)], verbose_name="Количество", blank=False, null=False
     )
