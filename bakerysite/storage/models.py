@@ -28,7 +28,7 @@ class Order(models.Model):
     }
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name="Покупатель")
     creation_date = models.DateTimeField(blank=True, null=True, verbose_name="Дата оформления")
-    completion_date = models.DateTimeField(blank=True, null=True, verbose_name="Дата завершения")
+    completion_date = models.DateTimeField(blank=True, null=True, verbose_name="Плановая дата завершения")
     delivery_type = models.CharField(max_length=10, null=True, choices=DELIVERY, verbose_name="Тип доставки")
     delivery_address = models.CharField(max_length=30, null=True, verbose_name="Адрес доставки")
     payment_type = models.CharField(max_length=10, null=True, choices=PAYMENT, verbose_name="Тип оплаты")
