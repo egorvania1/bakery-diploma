@@ -2,11 +2,19 @@ from django.contrib import admin
 
 from .models import Order, Item, Changes, OrderItem
 
+class ChangesInline(admin.TabularInline):
+    model = Changes
+
 
 # Register your models here.
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     list_display = ["name", "weight", "price"]
+    search_fields = ["name", ]
+
+    inlines = [
+        ChangesInline,
+    ]
 
 
 class OrderItemInline(admin.TabularInline):
