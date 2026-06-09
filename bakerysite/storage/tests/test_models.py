@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.utils import timezone
+#from django.utils import timezone
 from storage.models import Order, OrderItem, Item, Changes
 from accounts.models import User, Customer, Employee
 from datetime import datetime
@@ -49,8 +49,8 @@ class TestStorageOrderCreationTest(TestCase):
         try:
             order = Order.objects.create(
                 customer=self.customer,
-                creation_date=datetime.now(tz=timezone.UTC),
-                completion_date=datetime.now(tz=timezone.UTC),
+                creation_date=datetime.now(),
+                completion_date=datetime.now(),
                 delivery_type="DELIVERY",
                 delivery_address="ул. Тестовая 53",
                 payment_type="CARD",
@@ -88,8 +88,8 @@ class TestStorageMethodsTest(TestCase):
 
         self.order = Order.objects.create(
                 customer=self.customer,
-                creation_date=datetime.now(tz=timezone.UTC),
-                completion_date=datetime.now(tz=timezone.UTC),
+                creation_date=datetime.now(),
+                completion_date=datetime.now(),
                 delivery_type="DELIVERY",
                 delivery_address="ул. Тестовая 53",
                 payment_type="CARD",

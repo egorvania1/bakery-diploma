@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from datetime import datetime
-from django.utils import timezone
+#from django.utils import timezone
 
 from storage.models import Item, Order, OrderItem
 from accounts.models import Customer
@@ -96,7 +96,7 @@ def cart(request):
             messages.error(request, 'Отсутствуют товары в корзине')
         elif form.is_valid():
             instance = form.save(commit=False)
-            instance.creation_date = datetime.now(tz=timezone.UTC)
+            instance.creation_date = datetime.now()
             instance.status = "PROCESSING"
             instance.is_ordered = True
             instance.save()

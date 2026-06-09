@@ -114,7 +114,7 @@ AUTH_USER_MODEL = "accounts.User"
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
@@ -127,7 +127,12 @@ LANGUAGES = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+
+
 STATIC_URL = 'static/'
+
+#STATIC_ROOT = BASE_DIR / "static"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -161,5 +166,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 ALLOWED_HOSTS = [
     '192.168.0.118',
-    '10.147.17.8'
+    '10.147.17.8',
+    '127.0.0.1'
 ]
