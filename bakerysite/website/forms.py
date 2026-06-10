@@ -19,7 +19,8 @@ class ChangesForm(forms.Form):
             for value in value_list:
                 available = item_changes.filter(component=value)
                 display_name = available.first().get_component_display()
-                self.fields[f"{value}"] = forms.ModelChoiceField(queryset=available, label=display_name, required = True)
+                self.fields[f"{value}"] = forms.ModelChoiceField(queryset=available, label=display_name, required = True, empty_label=None)
+                self.fields[f"{value}"].initial = available[0]
 
 class CartForm(forms.ModelForm):
     class Meta:

@@ -58,7 +58,7 @@ class Item(models.Model):
     weight = models.PositiveIntegerField(verbose_name="Вес")
     description = models.CharField(max_length=300, verbose_name="Описание")
     contents = models.CharField(max_length=100, verbose_name="Состав")
-    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
+    price = models.DecimalField(validators=[MinValueValidator(1)], max_digits=6, decimal_places=2, verbose_name="Цена")
 
     image = models.ImageField(upload_to="static/uploads/", verbose_name="Изображение")
 
@@ -94,6 +94,8 @@ class Changes(models.Model):
             "component",
             "selected",
         )
+
+        ordering = ['price']
 
         verbose_name = "Изменение"
         verbose_name_plural = "Изменения"
