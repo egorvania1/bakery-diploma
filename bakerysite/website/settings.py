@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vflfq%_z*s45#2u&ybqe3(v&owu-cplq@ewj%+cb*et5hym5p!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -131,11 +131,11 @@ LANGUAGES = [
 
 STATIC_URL = 'static/'
 
-#STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "static"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / "static",
+#]
 
 COMPRESS_ROOT = BASE_DIR / "static"
 
@@ -148,6 +148,8 @@ COMPRESS_CACHEABLE_PRECOMPILERS = (
 )
 
 COMPRESS_ENABLED = True
+
+COMPRESS_OFFLINE = True
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "menu"
