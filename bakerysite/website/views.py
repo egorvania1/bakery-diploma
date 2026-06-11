@@ -30,16 +30,17 @@ def menu(request):
 
     return render(request, 'menu.html', context)
 
-@login_required
+#@login_required
 @user_passes_test(customer_check)
 def item_info(request, pk):
     item = get_object_or_404(Item, pk=pk)
-    if request.method == "POST":
+    user = request.user
+    if request.method == "POST" and user.is_authenticated:
         form = ChangesForm(request.POST, item=item)
         if form.is_valid():
 
             #Добавляем товар в корзину (и создаем её при необходимости)
-            customer = Customer.objects.get(user=request.user)
+            customer = Customer.objects.get(user=user)
             try:
                 order = Order.objects.get(customer=customer, creation_date=None)
             except:
