@@ -83,16 +83,17 @@ def profile_view(request):
         pass_form = PasswordEditForm(request.POST)
         password = request.POST.get('password')
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and pass_form.is_valid():
             user = user_form.save()
             update_session_auth_hash(request, user)
             profile_form.save()
 
-            if pass_form.is_valid() and password != "":
+            if password != "":
                 user.set_password(password)
                 user.save()
                 update_session_auth_hash(request, user)
-
+            
+            messages.error(request, "Профиль успешно изменен")
         
     else:
         user_form = UserEditForm(instance=request.user)

@@ -66,7 +66,8 @@ class PasswordEditForm(forms.Form):
 
         if password != password_conf:
             raise forms.ValidationError(
-                "Пароли не совпадают"
+                {"password": "Пароли не совпадают",
+                "password_conf": "Пароли не совпадают"}
             )
         
         return cleaned_data

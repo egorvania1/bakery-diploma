@@ -29,5 +29,14 @@
                 <button class="btn btn-outline-secondary rounded-3" type="submit">Выйти из профиля</button>
             </div>
         </form>
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}
